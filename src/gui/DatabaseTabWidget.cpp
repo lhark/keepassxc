@@ -93,7 +93,7 @@ void DatabaseTabWidget::newDatabase()
         return;
     }
 
-    auto* db = wizard.takeDatabase();
+    QScopedPointer<Database> db(wizard.takeDatabase());
     if (!db) {
         return;
     }
@@ -108,11 +108,12 @@ void DatabaseTabWidget::newDatabase()
     }
 
     DatabaseManagerStruct dbStruct;
-    dbStruct.dbWidget = new DatabaseWidget(db, this);
-    insertDatabase(db, dbStruct);
+    dbStruct.dbWidget = new DatabaseWidget(db.data(), this);
+    Database* dbPtr = db.take();
+    insertDatabase(dbPtr, dbStruct);
 
-    if (!saveDatabaseAs(db)) {
-        closeDatabase(db);
+    if (!saveDatabaseAs(dbPtr)) {
+        closeDatabase(dbPtr);
         return;
     }
 }

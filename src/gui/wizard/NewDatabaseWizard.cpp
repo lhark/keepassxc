@@ -45,8 +45,7 @@ NewDatabaseWizard::NewDatabaseWizard(QWidget* parent)
 
     setWindowTitle(tr("Create a new KeePassXC database..."));
 
-    // TODO: change image
-    setPixmap(QWizard::BackgroundPixmap, filePath()->applicationIcon().pixmap(512, 512));
+    setPixmap(QWizard::BackgroundPixmap, QPixmap(filePath()->dataPath("/wizard/background.png")));
 }
 
 NewDatabaseWizard::~NewDatabaseWizard()
